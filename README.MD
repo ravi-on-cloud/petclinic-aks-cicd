@@ -13,7 +13,7 @@ A production-style pipeline that builds and ships the Spring Petclinic app to Az
 1. Commit → Azure DevOps pipeline triggers.
 2. CI: Maven build and tests → Docker image → push to ACR.
 3. Security: Trivy scans the pushed image and publishes a report.
-4. Quality (optional): SonarCloud analysis and Quality Gate.
+4. Quality: SonarCloud analysis and Quality Gate.
 5. CD: Apply Kubernetes manifests (Deployment + Service) to AKS.
 6. Service type LoadBalancer exposes the app publicly.
 
@@ -72,17 +72,6 @@ A production-style pipeline that builds and ships the Spring Petclinic app to Az
 
 **SonarCloud project**  
 ![SonarCloud](Screenshots/sonar.png)
-
----
-
-## Troubleshooting notes
-
-| Symptom                        | Likely Cause                              | Fix applied                                      |
-|-------------------------------|-------------------------------------------|--------------------------------------------------|
-| Image pull errors             | Wrong repo/tag or AKS not attached to ACR | Corrected image path and ensured ACR attachment  |
-| External IP stays “pending”   | Load balancer not yet provisioned         | Confirmed node RG & permissions; waited for LB   |
-| Pods stuck Pending            | Node capacity or node readiness           | Verified node pool status; scaled if necessary   |
-| Sonar shows “Not computed”    | Keys/org mismatch or first-time run       | Verified org/key; triggered a fresh analysis     |
 
 ---
 
